@@ -1,12 +1,13 @@
 package com.wly;
 
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class TestMain {
 
 	public static void main(String[] args) {
-		ClassPathXmlApplicationContext classPathXmlApplicationContext = new ClassPathXmlApplicationContext("applicationContext.xml");
-		Person person = (Person) classPathXmlApplicationContext.getBean("person");
+		ApplicationContext applicationContext = new ClassPathXmlApplicationContext("applicationContext.xml");
+		Person person = (Person) applicationContext.getBean("person");
 		System.out.println(person.getName());
 	}
 }
