@@ -136,6 +136,7 @@ public abstract class AbstractRefreshableApplicationContext extends AbstractAppl
 			customizeBeanFactory(beanFactory);
 			// 加载xml配置文件的属性，转换为BeanDefinition对象，此处复杂
 			// 初始化documentReader，并进行XML文件读取及解析
+			// 从String[]->String->Resource[]->Resource，最终将resource读取成一个document文档，根据文档的节点信息封装成一个个的BeanDefinition对象
 			loadBeanDefinitions(beanFactory);
 			this.beanFactory = beanFactory;
 		}
