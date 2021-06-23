@@ -108,6 +108,7 @@ public abstract class AbstractBeanDefinitionReader implements BeanDefinitionRead
 
 	@Override
 	public final BeanDefinitionRegistry getRegistry() {
+		// registry包括了一些增删改的基本方法
 		return this.registry;
 	}
 
