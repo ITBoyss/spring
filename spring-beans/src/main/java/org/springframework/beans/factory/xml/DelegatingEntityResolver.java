@@ -16,14 +16,13 @@
 
 package org.springframework.beans.factory.xml;
 
-import java.io.IOException;
-
+import org.springframework.lang.Nullable;
+import org.springframework.util.Assert;
 import org.xml.sax.EntityResolver;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-import org.springframework.lang.Nullable;
-import org.springframework.util.Assert;
+import java.io.IOException;
 
 /**
  * {@link EntityResolver} implementation that delegates to a {@link BeansDtdResolver}
@@ -59,7 +58,11 @@ public class DelegatingEntityResolver implements EntityResolver {
 	 * (can be {@code null}) to use the default ClassLoader)
 	 */
 	public DelegatingEntityResolver(@Nullable ClassLoader classLoader) {
+		// 加载DTD格式文件
 		this.dtdResolver = new BeansDtdResolver();
+		// 当完成这行代码调用之后，大家会发现一件事情，schemaResolver对象的schemaMappings属性完成了赋值操作，但是你遍历已执行过的代码后依然没有看到
+		// 显示调用，其实此时的原理非常简单，我们在debug的时候，因为在程序运行期间需要显示当前类的所有信息，所以idea会帮助我们调用PluggableSchemaResolver.toString()方法，
+		// 只不过此过程我们识别不到而已
 		this.schemaResolver = new PluggableSchemaResolver(classLoader);
 	}
 

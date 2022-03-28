@@ -71,12 +71,14 @@ public class PropertySourcesPropertyResolver extends AbstractPropertyResolver {
 	@Override
 	@Nullable
 	protected String getPropertyAsRawString(String key) {
+		// 从系统环境和系统属性中获取key的值返回
 		return getProperty(key, String.class, false);
 	}
 
 	@Nullable
 	protected <T> T getProperty(String key, Class<T> targetValueType, boolean resolveNestedPlaceholders) {
 		if (this.propertySources != null) {
+			// 从属性资源集合中的不同资源（比如系统环境和系统属性）里获取对应key的值
 			for (PropertySource<?> propertySource : this.propertySources) {
 				if (logger.isTraceEnabled()) {
 					logger.trace("Searching for key '" + key + "' in PropertySource '" +

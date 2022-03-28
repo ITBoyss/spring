@@ -16,22 +16,21 @@
 
 package org.springframework.core.env;
 
-import java.security.AccessControlException;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.LinkedHashSet;
-import java.util.Map;
-import java.util.Set;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
 import org.springframework.core.SpringProperties;
 import org.springframework.core.convert.support.ConfigurableConversionService;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
+
+import java.security.AccessControlException;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.LinkedHashSet;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Abstract base class for {@link Environment} implementations. Supports the notion of
@@ -63,6 +62,7 @@ public abstract class AbstractEnvironment implements ConfigurableEnvironment {
 	 * log warnings from {@code getenv} calls coming from Spring, e.g. on WebSphere
 	 * with strict SecurityManager settings and AccessControlExceptions warnings.
 	 * @see #suppressGetenvAccess()
+	 * 设置可以忽略的属性配置
 	 */
 	public static final String IGNORE_GETENV_PROPERTY_NAME = "spring.getenv.ignore";
 
@@ -74,6 +74,7 @@ public abstract class AbstractEnvironment implements ConfigurableEnvironment {
 	 * is in use, this property may be specified as an environment variable as
 	 * {@code SPRING_PROFILES_ACTIVE}.
 	 * @see ConfigurableEnvironment#setActiveProfiles
+	 * 哪个配置文件是激活的
 	 */
 	public static final String ACTIVE_PROFILES_PROPERTY_NAME = "spring.profiles.active";
 
@@ -85,6 +86,7 @@ public abstract class AbstractEnvironment implements ConfigurableEnvironment {
 	 * is in use, this property may be specified as an environment variable as
 	 * {@code SPRING_PROFILES_DEFAULT}.
 	 * @see ConfigurableEnvironment#setDefaultProfiles
+	 * 默认使用的属性文件
 	 */
 	public static final String DEFAULT_PROFILES_PROPERTY_NAME = "spring.profiles.default";
 
@@ -97,6 +99,7 @@ public abstract class AbstractEnvironment implements ConfigurableEnvironment {
 	 * @see ConfigurableEnvironment#setActiveProfiles
 	 * @see AbstractEnvironment#DEFAULT_PROFILES_PROPERTY_NAME
 	 * @see AbstractEnvironment#ACTIVE_PROFILES_PROPERTY_NAME
+	 * 默认属性文件的名称
 	 */
 	protected static final String RESERVED_DEFAULT_PROFILE_NAME = "default";
 
@@ -135,6 +138,7 @@ public abstract class AbstractEnvironment implements ConfigurableEnvironment {
 	protected AbstractEnvironment(MutablePropertySources propertySources) {
 		this.propertySources = propertySources;
 		this.propertyResolver = createPropertyResolver(propertySources);
+		// 定制化属性资源
 		customizePropertySources(propertySources);
 	}
 
@@ -233,6 +237,7 @@ public abstract class AbstractEnvironment implements ConfigurableEnvironment {
 	 * @see MutablePropertySources
 	 * @see PropertySourcesPropertyResolver
 	 * @see org.springframework.context.ApplicationContextInitializer
+	 * 子类具体实现
 	 */
 	protected void customizePropertySources(MutablePropertySources propertySources) {
 	}
@@ -621,6 +626,7 @@ public abstract class AbstractEnvironment implements ConfigurableEnvironment {
 
 	@Override
 	public String resolveRequiredPlaceholders(String text) throws IllegalArgumentException {
+		// propertyResolver属性资源解析器，里面含有系统环境和系统属性的一些数据
 		return this.propertyResolver.resolveRequiredPlaceholders(text);
 	}
 
